@@ -5,7 +5,7 @@ const { delay, calculatePrepTime } = require('./utils');
 const Order = require('./models/Order');
 
 const RABBITMQ_URL = process.env.RABBITMQ_URL;
-const MONGODB_URI = "mongodb://127.0.0.1:27017/restaurant_db";
+const MONGODB_URI = process.env.MONGODB_URI;
 const ORDER_QUEUE = 'orders';
 const WORKER_COUNT = parseInt(process.env.WORKER_COUNT || '3');
 
