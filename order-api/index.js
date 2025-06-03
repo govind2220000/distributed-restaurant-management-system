@@ -4,9 +4,10 @@ const amqp = require('amqplib');
 const { v4: uuidv4 } = require('uuid');
 const mongoose = require('mongoose');
 const Order = require('./models/Order');
-
+const cors = require('cors');
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const RABBITMQ_URL = process.env.RABBITMQ_URL;
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -62,7 +63,7 @@ async function start() {
   // Endpoint for fetching all orders from MongoDB
   app.get('/bulkorders', async (req, res) => {
     try {
-      const order = await Order.find();
+      const order = await Order.find().sort({ createdAt: -1 });
       if(!order) return res.status(404).json({ error: 'Order not found' });
       res.json(order);
     } catch (err) {
